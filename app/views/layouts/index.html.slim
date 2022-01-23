@@ -1,0 +1,31 @@
+.container
+  .row
+    .col
+      .card
+        h5.card-header
+          .float-start
+            | Search practice
+            = simple_form_for "", method: :get do |f|
+              .input-group[data-controller="flatpickr"]
+                = f.input_field :query, type: :text, placeholder: "Search", value: params["query"] || "", class: "form-control form-control-sm", label: false
+                .input-group-append
+                  - if params["query"].present?
+                    button.btn.btn-sm.bg-transparent[style="margin-left: -25px; z-index: 100;"]
+                      a href="#{request.env['PATH_INFO']}"
+                        | x
+                  button.btn.btn-outline-secondary.btn-sm.mr-2[type="submit"] search
+        .card-body.capacity-table
+          table.table.table-sm.table-hover{id="table-capacity"}
+            thead
+              tr
+                th Group
+                th Title
+                th Status
+                th Expiration Date 
+            tbody
+              - @entries.each do |entry|
+                tr
+                  td= entry.group.title
+                  td= entry.title
+                  td= entry.status
+                  td= entry.expiration_date
